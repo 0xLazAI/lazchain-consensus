@@ -28,7 +28,7 @@ pub async fn run(
     while !shutdown_flag {
         tokio::select! {
             Some(msg) = channels.consensus.recv() => {
-                info!("metis-test:consensus-chan recv!!! msg:{:?}", msg);
+                debug!("metis-test:consensus-chan recv!!! msg:{:?}", msg);
 
                 match msg {
                     // The first message to handle is the `ConsensusReady` message, signaling to the app
