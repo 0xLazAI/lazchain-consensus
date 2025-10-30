@@ -24,6 +24,7 @@ base64 = "0.22"
 clap = { version = "4.5", features = ["derive"] }
 chrono = "0.4.41"
 k256 = "0.13"
+ed25519-consensus = { workspace = true }
 jsonwebtoken = "9"
 thiserror = "2.0.11"
 reqwest = { version = "0.12.2", default-features = false, features = ["blocking", "json", "stream", "rustls-tls", "native-tls-vendored"] }

@@ -4319,6 +4319,7 @@ dependencies = [
  "chrono",
  "clap",
  "color-eyre",
+ "ed25519-consensus",
  "ethereum_serde_utils 0.8.0",
  "hex",
  "jsonwebtoken",
