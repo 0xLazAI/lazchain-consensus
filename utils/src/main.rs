@@ -3,8 +3,10 @@ use color_eyre::eyre::Result;
 use genesis::generate_genesis_with_contracts;
 use genesis::make_signers;
 use spammer::Spammer;
+use std::path::PathBuf;
 
 mod genesis;
+mod pubkey;
 mod spammer;
 mod tx;
 
@@ -27,6 +29,9 @@ pub(crate) enum Commands {
     /// Spam transactions
     #[command(arg_required_else_help = true)]
     Spam(SpamCmd),
+
+    /// Print Tendermint Ed25519 public key (0x-prefixed hex) from priv_validator_key.json
+    Pubkey(PubkeyCmd),
 }
 
 #[derive(Parser, Debug, Clone, Default, PartialEq)]
@@ -57,7 +62,9 @@ async fn main() -> Result<()> {
 
     let cli = Cli::parse();
     match cli.command {
-        Commands::Genesis { validator_config } => generate_genesis_with_contracts(&validator_config),
+        Commands::Genesis { validator_config } => {
+            generate_genesis_with_contracts(&validator_config)
+        }
         Commands::Spam(SpamCmd {
             rpc_url,
             num_txs,
@@ -71,5 +78,13 @@ async fn main() -> Result<()> {
                 .run()
                 .await
         }
+        Commands::Pubkey(cmd) => pubkey::run_pubkey(cmd),
     }
+}
+
+#[derive(Parser, Debug, Clone, Default, PartialEq)]
+pub struct PubkeyCmd {
+    /// Path to priv_validator_key.json
+    #[clap(long)]
+    key_file: PathBuf,
 }
